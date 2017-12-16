@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Austin Animal Center Visual</title>
+
+	<meta charset="utf-8">
+ 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="src/index.css">
+  	<link rel="stylesheet" href="src/index.css">
+
+</head>
+<body>
+	<h1>Austin Animal Center</h1>
+
+	<div class="container">
+      <div class="chart">
+      	
+      </div>
+    </div>
+
+
+	<!-- Javascript -->
+  		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js" charset="utf-8"></script>
+
+		<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script type= "text/javascript" src="src/calendar-heatmap.js"></script>
+		<script type= "text/javascript">
+			var chartData = [];
+
+
+			d3.csv("src/animal.csv", function(data) {
+				console.log(data[0].Looks);
+				data.forEach(function(d) {
+					var item = {
+						date: "",
+						count: 0
+					};
+					var num = 0;
+					
+					data.forEach(function(i){
+						
+						if (d.Date === i.Date){
+							num++;
+						}
+					})
+					var bop = new Date(d.Date)
+					item.date = bop;
+				    item.count = num;
+				    chartData.push(item);
+				    num = 0;
+
+				});
+			  	
+			});
+
+			console.log(chartData);
+
+
+			var chart1 = calendarHeatmap()
+			              .data(chartData)
+			              .selector('.container')
+			              .colorRange(['#D8E6E7', '#218380'])
+			              .tooltipEnabled(true)
+			              .onClick(function (data) {
+			                console.log('onClick callback. Data:', data);
+			              });
+			chart1(); 
+
+
+		</script>
+
+  	<!-- Javascript -->
+</body>
+</html>
